@@ -11,10 +11,21 @@ export function AddContact() {
     console.log(email);
     console.log(phone);
 
+    //Fix new user object
+    const newUser = { username: userName, email: email, phone: phone };
+
     //Posts the new contact to server
-    axios.post("").then((response) => {
-      console.log(response.data);
-    });
+    axios
+      .post("http://localhost:3000/addcontact", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newUser),
+      })
+      .then((response) => {
+        console.log(response.data);
+      });
   }
 
   return (
