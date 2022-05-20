@@ -1,14 +1,15 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { PrintContacts } from "./components/PrintContacts";
+
 import { AddContact } from "./components/AddContact";
+import { ShowContacts } from "./components/ShowContacts";
 
 function App() {
   return (
     <>
-      <PrintContacts></PrintContacts>
       <AddContact></AddContact>
+      <ShowContacts></ShowContacts>
     </>
   );
 }

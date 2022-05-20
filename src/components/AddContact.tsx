@@ -1,7 +1,5 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NewUser } from "../models/NewUser";
-
 export function AddContact() {
   //Variables for user inputs
   const [username, setUsername] = useState("");
@@ -25,8 +23,6 @@ export function AddContact() {
 
   //Posts the new user to the server
   async function postNewUser(user: NewUser) {
-    console.log("hej");
-
     try {
       let response = await fetch("http://localhost:1337/users/addcontact", {
         method: "post",
