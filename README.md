@@ -1,3 +1,6 @@
+#Purpose of the project: to create a simple address book where the user can add new contacts.
+Used node.js with express to save data to server (see repository https://github.com/tovehydmark/address-book-backend.git)
+
 # Getting Started with Create React App
 
 #Packages installed:
