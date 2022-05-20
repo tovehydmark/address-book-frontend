@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { NewUser } from "../models/NewUser";
+import { makeRequest } from "./MakeRequest";
+
 export function AddContact() {
   //Variables for user inputs
   const [username, setUsername] = useState("");
@@ -18,24 +20,8 @@ export function AddContact() {
   function saveContact(username: string, email: string, number: string) {
     let userToSend = new NewUser(username, email, number);
 
-    postNewUser(userToSend);
-  }
-
-  //Posts the new user to the server
-  async function postNewUser(user: NewUser) {
-    try {
-      let response = await fetch("http://localhost:1337/users/addcontact", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
-
-      await response.json();
-    } catch (err) {
-      throw err;
-    }
+    //Using makeRequest file for posting data to server
+    makeRequest("http://localhost:1337/users/addcontact", "post", userToSend);
   }
 
   return (
