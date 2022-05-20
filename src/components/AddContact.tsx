@@ -1,44 +1,56 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { NewUser } from "../models/NewUser";
 
 export function AddContact() {
-  const [userName, setUserName] = useState("");
+  //Variables for user inputs
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [number, setNumber] = useState("");
 
-  function saveContact() {
-    // console.log(userName);
-    // console.log(email);
-    // console.log(phone);
+  //Ensures that the site isn't updated when form is submitted + clears input fields
+  const onSubmit = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    setUsername("");
+    setEmail("");
+    setNumber("");
+  };
 
-    //Fix new user object
-    const newUser = { username: userName, email: email, phone: phone };
+  //Saves info from user input and sends to postNewUser
+  function saveContact(username: string, email: string, number: string) {
+    let userToSend = new NewUser(username, email, number);
 
-    //Posts the new contact to server
-    //It works as it is sent to the back end but the result is blocked somehow on the way back
+    postNewUser(userToSend);
+  }
 
-    fetch("http://localhost:3000/users/addcontact", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newUser),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+  //Posts the new user to the server
+  async function postNewUser(user: NewUser) {
+    console.log("hej");
+
+    try {
+      let response = await fetch("http://localhost:1337/users/addcontact", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
       });
+
+      await response.json();
+    } catch (err) {
+      throw err;
+    }
   }
 
   return (
     <>
-      <form action="">
+      <form onSubmit={onSubmit}>
         <label htmlFor="name">Namn: </label>
         <input
           type="text"
-          value={userName}
+          value={username}
           id="name"
-          onChange={(e) => setUserName(e.target.value)}
+          onChange={(e) => setUsername(e.target.value)}
         />
 
         <label htmlFor="email">Email: </label>
@@ -52,12 +64,14 @@ export function AddContact() {
         <label htmlFor="number">Nummer: </label>
         <input
           type="number"
-          value={phone}
+          value={number}
           id="number"
-          onChange={(e) => setPhone(e.target.value)}
+          onChange={(e) => setNumber(e.target.value)}
         />
 
-        <button onClick={saveContact}>Spara kontakt</button>
+        <button onClick={() => saveContact(username, email, number)}>
+          Spara kontakt
+        </button>
       </form>
     </>
   );
